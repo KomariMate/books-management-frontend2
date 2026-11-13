@@ -1,5 +1,5 @@
 <script setup>
-  import { createBook, getBooks } from "../api/books";
+  import { createBook, deleteBook, getBooks } from "../api/books";
 </script>
 <script>
   export default {
@@ -23,6 +23,10 @@
       },
       async addBook(book) {
         await createBook(book);
+        await this.loadBooks();
+      },
+      async removeBook(id) {
+        await deleteBook(id);
         await this.loadBooks();
       },
       async submitCreateBook() {
@@ -68,7 +72,7 @@
         />
       </div>
 
-      <button type="submit" class="border-2 border-gray-200 p-2">
+      <button type="submit" class="border-2 border-gray-200 p-2 cursor-pointer">
         Létrehozás
       </button>
     </form>
@@ -89,7 +93,9 @@
           <td class="">{{ book.title }}</td>
           <td class="">{{ book.author }}</td>
           <td class="">{{ book.year }}</td>
-          <td class="">--</td>
+          <td class="">
+            <button type="button" class="ml-2 border-2 border-rose-500 text-rose-500 p-2 cursor-pointer" @click="removeBook(book.id)">törlés</button>
+          </td>
         </tr>
       </tbody>
     </table>
